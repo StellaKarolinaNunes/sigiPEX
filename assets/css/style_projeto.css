@@ -1,0 +1,216 @@
+@import url("https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&family=Poppins:wght@400;500;600&display=swap");
+
+:root {
+  --primary: #1a8e4c;
+  --primary-glow: rgba(26, 142, 76, 0.2);
+  --primary-dark: #126b38;
+  --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e8f5ec 100%);
+  --white: #ffffff;
+  --text-dark: #2d3436;
+  --text-gray: #636e72;
+  --danger: #d63031;
+  --shadow: 0 20px 40px rgba(0,0,0,0.08);
+  --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  margin: 0;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.container {
+  max-width: 1000px;
+  width: 100%;
+  background: var(--white);
+  padding: 50px;
+  border-radius: 30px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: var(--primary);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+header h2 {
+  font-family: 'Philosopher', sans-serif;
+  font-size: 2.8rem;
+  color: var(--primary);
+  margin: 0;
+  letter-spacing: -1px;
+}
+
+#voltarBtn {
+  background: #f1f2f6;
+  color: var(--text-dark);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#voltarBtn:hover {
+  background: #dfe4ea;
+  transform: translateX(-5px);
+}
+
+.form-section {
+  background: #fdfdfd;
+  padding: 30px;
+  border-radius: 24px;
+  border: 1px solid #f1f1f1;
+  margin-bottom: 40px;
+  transition: var(--transition);
+}
+
+.form-section:hover {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+  border-color: var(--primary-glow);
+}
+
+h4 {
+  font-size: 1.2rem;
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 0.95rem;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid #f1f1f1;
+  border-radius: 16px;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: var(--transition);
+  margin-bottom: 20px;
+  background: #fafafa;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 4px var(--primary-glow);
+  outline: none;
+}
+
+.add-btn {
+  background: #f1fbf4;
+  color: var(--primary);
+  border: 2px dashed var(--primary);
+  padding: 14px;
+  width: 100%;
+  margin: 10px 0;
+  border-radius: 16px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.add-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-style: solid;
+}
+
+button[type="submit"] {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 22px;
+  border-radius: 20px;
+  font-weight: 700;
+  width: 100%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-top: 30px;
+  box-shadow: 0 10px 20px var(--primary-glow);
+  transition: var(--transition);
+}
+
+button[type="submit"]:hover {
+  background: var(--primary-dark);
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px var(--primary-glow);
+}
+
+/* Previsão de Imagens Estilo Galeria */
+#imagensContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.image-preview {
+  position: relative;
+  background: white;
+  padding: 8px;
+  border-radius: 18px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  transition: var(--transition);
+}
+
+.image-preview:hover {
+  transform: scale(1.05);
+}
+
+.image-preview img {
+  width: 160px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.remove-imagem, .remove-arquivo, .remove-field {
+  background: var(--danger);
+  color: white;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  transition: var(--transition);
+}
+
+.remove-imagem:hover, .remove-field:hover {
+  background: #b32626;
+  transform: rotate(90deg);
+}

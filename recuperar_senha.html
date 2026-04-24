@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Recuperar Senha</title>
+  <link rel="stylesheet" href="assets/css/stylerecuperarsenha.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Recuperar Senha</h1>
+    <form id="recuperarForm" action="recuperar_senha.php" method="POST">
+      <div class="form-group">
+        <label for="email">Digite seu e-mail:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <button type="submit">Enviar</button>
+    </form>
+    <button id="btnVoltar">Voltar ao Login</button>
+  </div>
+  <script src="assets/js/scriptrecuperarsenha.js"></script>
+</body>
+</html>

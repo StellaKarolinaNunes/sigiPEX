@@ -1,0 +1,402 @@
+@import url("https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&family=Poppins:wght@400;500;600&display=swap");
+
+:root {
+  --primary-color: var(--old-rose, #1a8e4c);
+  --primary-dark: var(--chinese-violet, #126b38);
+  --secondary-color: #ffffff;
+  --text-dark: var(--charcoal, #2d3436);
+  --text-gray: var(--sonic-silver, #636e72);
+  --bg-section: var(--seashell, #f5f7fa);
+  --input-bg: var(--ghost-white, #f1f3f5);
+  --transition: all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+/* Specific section for login/cadastro */
+.login-section {
+  padding-block: 0; /* Removido para garantir tela cheia */
+  background-color: var(--bg-section);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Tela Inteira */
+  width: 100%;
+}
+
+.container-form {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Ocupa toda a altura da tela */
+  background: var(--secondary-color);
+  overflow: hidden;
+  display: flex;
+  border-radius: 0; /* Remove as bordas para preencher tudo */
+}
+
+.container-form h1 {
+  font-family: var(--ff-philosopher, "Philosopher", sans-serif);
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 2rem;
+}
+
+.container-form p {
+  font-size: 1.6rem;
+  line-height: 1.6;
+  color: #fff;
+  margin-bottom: 2rem;
+}
+
+form {
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+.form-box {
+  position: absolute;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: var(--secondary-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-dark);
+  text-align: center;
+  padding: 40px;
+  z-index: 1;
+  transition: 1.2s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.container-form.active .form-box {
+  right: 50%;
+}
+
+.form-box.register {
+    z-index: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(100px);
+}
+
+.container-form.active .form-box.register {
+    z-index: 1;
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.form-box.login {
+    transform: translateX(0);
+}
+
+.container-form.active .form-box.login {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-100px);
+}
+
+.input-box {
+  position: relative;
+  width: 100%;
+  margin: 1.2rem 0; /* Espaçamento melhor entre campos */
+}
+
+.input-box input {
+  width: 100%;
+  padding: 15px 50px 15px 20px;
+  background: var(--input-bg);
+  border-radius: 18px; /* Mais arredondado */
+  border: 2px solid transparent;
+  outline: none;
+  font-size: 1.5rem;
+  color: var(--text-dark);
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.input-box input:focus {
+  border-color: var(--primary-color);
+  background: #fff;
+  box-shadow: 0 0 15px rgba(26, 142, 76, 0.1);
+}
+
+.input-box input::placeholder {
+  color: var(--text-gray);
+  font-weight: 400;
+}
+
+.input-box i {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.8rem;
+  color: var(--text-dark); /* Ícones mais escuros */
+  transition: var(--transition);
+  z-index: 2;
+}
+
+.input-box .toggle-password {
+  right: 55px;
+  font-size: 1.6rem;
+  color: var(--text-gray);
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.input-box .toggle-password:hover {
+  opacity: 1;
+  color: var(--primary-color);
+}
+
+.input-box input:focus + i {
+  color: var(--primary-color);
+}
+
+.forgot-link {
+  margin-top: 1rem;
+  margin-bottom: 2.5rem; /* Aumentado para dar mais distância do botão */
+  text-align: right;
+  width: 100%;
+  line-height: 1;
+}
+
+.forgot-link a {
+  font-size: 1.3rem;
+  color: var(--text-gray);
+  transition: var(--transition);
+  font-weight: 500;
+}
+
+.forgot-link a:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+.security-tip {
+  font-size: 1.1rem;
+  color: var(--text-gray);
+  margin: -2px 0 2px 0;
+  text-align: center;
+  opacity: 0.8;
+  line-height: 1.2;
+}
+
+.form-box .btn {
+  width: 100%;
+  height: 55px;
+  border-radius: 15px;
+  font-size: 1.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: var(--primary-color);
+  color: #fff;
+  transition: var(--transition);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-box .btn:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-box {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.toggle-box::before {
+  content: "";
+  position: absolute;
+  left: -250%;
+  width: 300%;
+  height: 100%;
+  background: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  border-radius: 150px;
+  z-index: 2;
+  transition: 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+  pointer-events: all;
+}
+
+.container-form.active .toggle-box::before {
+  left: 50%;
+}
+
+.toggle-panel {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  padding: 0 40px;
+  text-align: center;
+  transition: 1.2s cubic-bezier(0.7, 0, 0.2, 1);
+  pointer-events: all;
+}
+
+.toggle-panel.toggle-left {
+  left: 0;
+  transform: translateX(0);
+  transition-delay: 0.6s;
+}
+
+.container-form.active .toggle-panel.toggle-left {
+  transform: translateX(-100%);
+  transition-delay: 0s;
+}
+
+.toggle-panel.toggle-right {
+    right: 0;
+    transform: translateX(100%);
+    transition-delay: 0s;
+}
+
+.container-form.active .toggle-panel.toggle-right {
+    transform: translateX(0);
+    transition-delay: 0.6s;
+}
+
+.toggle-panel .btn {
+  width: 180px;
+  height: 50px;
+  background: transparent;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  box-shadow: none;
+  margin-top: 10px;
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.toggle-panel .btn:hover {
+  background: #fff;
+  color: var(--primary-color);
+}
+
+.terms-box {
+  margin: 15px 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.terms-box label {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap; /* Impede quebra de linha */
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: var(--text-dark);
+  gap: 10px;
+  width: 100%;
+}
+
+.terms-box input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-block; /* Sobrescreve o block global */
+  width: 20px; /* Sobrescreve o 100% global */
+  min-width: 20px;
+  height: 20px;
+  border: 2px solid var(--primary-color);
+  border-radius: 5px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  margin: 0;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.terms-box input[type="checkbox"]:checked {
+  background: var(--primary-color);
+}
+
+.terms-box input[type="checkbox"]:checked::after {
+  content: '\f00c';
+  font-family: "Font Awesome 5 Free", "BoxIcons";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 1.2rem;
+}
+
+.required-star {
+  color: #e74c3c;
+  font-weight: bold;
+  margin-left: 2px;
+}
+
+.terms-box span {
+  display: inline-block; /* Sobrescreve o block global */
+  white-space: nowrap; 
+  line-height: 1.4;
+  font-size: 1.2rem;
+  letter-spacing: -0.1px;
+  color: var(--text-dark);
+}
+
+.terms-box a {
+  display: inline; /* Sobrescreve o block global */
+  color: var(--primary-color);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.form-footer {
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.form-footer p {
+  font-size: 1.4rem;
+  color: var(--text-dark) !important;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.form-footer a {
+  color: var(--primary-color);
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.form-footer a:hover {
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) {
+  .container-form {
+    flex-direction: column;
+    height: auto;
+    min-height: 1000px;
+  }
+
+  .form-box {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding: 30px 20px;
+  }
+}
+
+
+
