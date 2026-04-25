@@ -286,6 +286,7 @@ document.addEventListener("DOMContentLoaded", function () {
       safeSet("campus", proj.campus_projeto);
       safeSet("github_link", proj.github_link);
       safeSet("codigo_turma", proj.codigo_turma);
+      safeSet("situacao", proj.situacao_projeto, "select");
 
       // Coorientadores (Limpa e Popula)
       const cooContainer = document.getElementById("coorientadorContainer");

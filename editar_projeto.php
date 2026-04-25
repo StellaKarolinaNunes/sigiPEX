@@ -8,9 +8,7 @@ if (!isset($_SESSION['siape'])) {
 }
 
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=sigipex;charset=utf8mb4", "root", "", [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-    ]);
+    require_once 'db_config.php';
 
     $codigo_projeto = $_POST['codigo_projeto'] ?? '';
     if (!$codigo_projeto) {
@@ -26,6 +24,7 @@ try {
     $categoria         = $_POST['categoria'] ?? 'Extensão';
     $orientador        = $_POST['orientador'] ?? '';
     $campus            = $_POST['campus'] ?? '';
+    $situacao          = $_POST['situacao'] ?? 'Em andamento';
     $siape_professor   = $_SESSION['siape'];
 
     // Processamento de Arrays
@@ -36,14 +35,14 @@ try {
     $sql = "UPDATE projetos SET 
                 nome_projeto = ?, coorientador_projeto = ?, resumo_projeto = ?, 
                 codigo_turma = ?, github_link = ?, linguagem_projeto = ?, 
-                categoria_projeto = ?, orientador_projeto = ?, campus_projeto = ?
+                categoria_projeto = ?, orientador_projeto = ?, campus_projeto = ?, situacao_projeto = ?
             WHERE codigo_projeto = ? AND siape_professor = ?";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         $nome_projeto, $coorientadores, $resumo_projeto, 
         $codigo_turma, $github_link, $linguagens, $categoria, 
-        $orientador, $campus, $codigo_projeto, $siape_professor
+        $orientador, $campus, $situacao, $codigo_projeto, $siape_professor
     ]);
 
     // PROCESSAMENTO OPCIONAL DE NOVAS IMAGENS (Se enviadas)

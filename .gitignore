@@ -1,0 +1,29 @@
+# Configurações do Ambiente local
+config.php
+.env
+
+# XAMPP / Temp
+/nbproject/
+/nbproject/*
+.tmp/
+*.log
+
+# IDEs e Editores
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+.DS_Store
+Thumbs.db
+
+# Uploads de usuários (Proteção de privacidade)
+/assets/uploads/
+/assets/images/autor_*
+/assets/images/stella.jpg
+/assets/images/jhenifer.jpg
+
+# Dependências (Ex: Composer)
+/vendor/

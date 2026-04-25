@@ -8,9 +8,7 @@ if (!isset($_SESSION['siape'])) {
 }
 
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=sigipex;charset=utf8mb4", "root", "", [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-    ]);
+    require_once 'db_config.php';
 
     // Dados Básicos
     $nome_projeto      = $_POST['nome_projeto'] ?? '';
@@ -29,6 +27,7 @@ try {
     $categoria         = $_POST['categoria'] ?? 'Extensão';
     $orientador        = $_POST['orientador'] ?? '';
     $campus            = $_POST['campus'] ?? '';
+    $situacao          = $_POST['situacao'] ?? 'Em andamento';
     $siape_professor   = $_SESSION['siape'];
 
     // Processamento de Arrays (Linguagens e Coorientadores)
@@ -71,15 +70,15 @@ try {
                 nome_projeto, coorientador_projeto, nome_aluno, email_aluno, 
                 resumo_projeto, codigo_turma, imagem_projeto, arquivo_projeto, 
                 siape_professor, github_link, linguagem_projeto, categoria_projeto, 
-                orientador_projeto, campus_projeto
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                orientador_projeto, campus_projeto, situacao_projeto
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         $nome_projeto, $coorientadores, $nome_aluno, $email_aluno, 
         $resumo_projeto, $codigo_turma, $imagens_json, $arquivos_json, 
         $siape_professor, $github_link, $linguagens, $categoria, 
-        $orientador, $campus
+        $orientador, $campus, $situacao
     ]);
 
     echo json_encode([

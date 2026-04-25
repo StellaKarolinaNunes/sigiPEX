@@ -12,9 +12,7 @@ if (!$codigo_projeto) {
     exit();
 }
 
-$pdo = new PDO("mysql:host=localhost;dbname=sigipex;charset=utf8mb4", "root", "", [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-]);
+require_once 'db_config.php';
 
 // Verifica se o projeto pertence ao professor logado
 $stmt = $pdo->prepare("SELECT siape_professor FROM projetos WHERE codigo_projeto = ?");

@@ -381,7 +381,7 @@
 
           <label class="form-label">CATEGORIA</label>
           <input type="hidden" name="categoria" id="categoriaInput" value="Extensão">
-          <div class="category-group">
+          <div class="category-group" style="margin-bottom: 25px;">
             <button type="button" class="cat-btn active" data-value="Extensão">
               <ion-icon name="checkmark-circle"></ion-icon> EXTENSÃO
             </button>
@@ -389,6 +389,13 @@
               <ion-icon name="checkmark-circle"></ion-icon> PESQUISA
             </button>
           </div>
+
+          <label class="form-label">SITUAÇÃO DO PROJETO</label>
+          <select name="situacao" class="form-input" id="situacaoInput" style="margin-bottom: 35px;">
+            <option value="Em andamento">Em andamento</option>
+            <option value="Concluído">Concluído</option>
+            <option value="Pausado">Pausado</option>
+          </select>
 
           <label class="form-label">Link Arquivos github</label>
           <input type="url" name="github_link" class="form-input" placeholder="https://github.com/">

@@ -8,8 +8,7 @@ if (!isset($_SESSION['siape'])) {
 }
 
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=sigipex;charset=utf8mb4", "root", "");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    require_once 'db_config.php';
 
     $nome               = $_POST['nome'] ?? '';
     $campus             = $_POST['campus'] ?? '';

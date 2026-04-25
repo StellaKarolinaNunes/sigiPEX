@@ -8,7 +8,7 @@ if (!isset($_SESSION['siape'])) {
 }
 
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=sigipex;charset=utf8mb4", "root", "");
+    require_once 'db_config.php';
     $stmt = $pdo->prepare("SELECT nome_professor, siape, coordenacao_curso as campus, telefone, email FROM professor WHERE siape = ?");
     $stmt->execute([$_SESSION['siape']]);
     $prof = $stmt->fetch(PDO::FETCH_ASSOC);

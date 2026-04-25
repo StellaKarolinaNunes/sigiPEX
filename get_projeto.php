@@ -11,9 +11,7 @@ if (!$codigo_projeto) {
     exit();
 }
 
-$pdo = new PDO("mysql:host=localhost;dbname=sigipex;charset=utf8mb4", "root", "", [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-]);
+require_once 'db_config.php';
 
 $stmt = $pdo->prepare("SELECT * FROM projetos WHERE codigo_projeto = ? AND siape_professor = ?");
 $stmt->execute([$codigo_projeto, $_SESSION['siape']]);

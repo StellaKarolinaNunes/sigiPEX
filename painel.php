@@ -8,9 +8,7 @@ if (!isset($_SESSION['siape'])) {
 }
 
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=sigipex;charset=utf8mb4", "root", "", [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-    ]);
+    require_once 'db_config.php';
 
     $siape = $_SESSION['siape'];
     $is_admin = (isset($_SESSION['nivel_acesso']) && $_SESSION['nivel_acesso'] == 1);

@@ -5,9 +5,10 @@ $nome_professor = $logado ? $_SESSION['nome_professor'] : "";
 
 // Busca projetos para exibir na vitrine
 try {
-  $pdo = new PDO("mysql:host=localhost;dbname=sigipex;charset=utf8mb4", "root", "");
+  require_once 'db_config.php';
+  
   $stmt = $pdo->query("SELECT * FROM projetos ORDER BY codigo_projeto DESC");
-  $projetos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $projetos = $stmt->fetchAll();
 
   $extensao = array_filter($projetos, function ($p) {
     return $p['categoria_projeto'] === 'Extensão';
@@ -25,8 +26,8 @@ try {
       foreach ($langs as $l)
         $areas[] = trim($l);
     }
-    if (!empty($p['status'])) {
-      $situacoes[] = $p['status'];
+    if (!empty($p['situacao_projeto'])) {
+      $situacoes[] = $p['situacao_projeto'];
     }
   }
   $areas = array_unique(array_filter($areas));
@@ -756,154 +757,156 @@ try {
       transform: scale(1.1);
     }
 
-    /* CARD DE PROJETO (REFINAMENTO FINAL) */
+    /* CARD DE PROJETO (ESTILO ACADÊMICO FIEL À IMAGEM) */
     .project-card {
-      background: white;
-      padding: 35px;
-      border-radius: 16px;
-      border: 1px solid #e1e8e4;
+      background: #ffffff;
+      padding: 45px 35px;
+      border-radius: 8px;
+      border: 1px solid #1a8e4c;
       display: flex;
       flex-direction: column;
-      text-align: left;
+      text-align: center; /* Centralizado como na imagem */
       height: 100%;
-      min-height: 420px;
-      transition: 0.4s ease;
+      min-height: 600px;
+      transition: all 0.3s ease;
       position: relative;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.03);
+      box-shadow: 12px 12px 0px var(--primary); /* Sombra sólida verde */
+      margin-bottom: 20px;
     }
 
     .project-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 25px 60px rgba(26, 142, 76, 0.08);
+      transform: translate(-4px, -4px);
+      box-shadow: 16px 16px 0px #15733d;
     }
 
-    .project-tag {
-      font-size: 0.7rem;
-      font-weight: 800;
-      color: #15733d;
+    /* Tag de Topo (Flutter) */
+    .card-top-tag {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
       text-transform: uppercase;
-      margin-bottom: 25px;
-      letter-spacing: 0.5px;
-      background: #e2f2e9;
-      padding: 7px 16px;
-      border-radius: 8px;
-      width: max-content;
-    }
-
-    .project-title {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1.45rem;
-      font-weight: 700;
-      color: #1e293b;
-      line-height: 1.3;
-      margin-bottom: 15px;
-      min-height: 3.8rem;
-    }
-
-    .project-desc {
-      font-size: 0.95rem;
-      color: #64748b;
-      line-height: 1.7;
+      letter-spacing: 2px;
       margin-bottom: 30px;
-      flex-grow: 1;
     }
 
-    .project-contributors {
-      background: #f8fafc;
-      padding: 15px;
-      border-radius: 12px;
-      font-size: 0.85rem;
-      color: #475569;
-      margin-bottom: 25px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      border-left: 4px solid var(--primary);
-    }
-
-    .project-contributors strong {
-      color: #1e293b;
+    /* Título Serifado */
+    .project-title {
+      font-family: 'Philosopher', serif;
+      font-size: 1.6rem;
       font-weight: 700;
+      color: #0f172a;
+      line-height: 1.25;
+      margin-bottom: 25px;
+      text-transform: uppercase;
+      min-height: 5.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .project-footer {
+    /* Divisor com Ponto */
+    .card-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 35px;
+    }
+    .card-divider span {
+      width: 40px;
+      height: 1px;
+      background: #1a8e4c;
+    }
+    .card-divider .dot {
+      width: 8px;
+      height: 8px;
+      background: #1a8e4c;
+      border-radius: 50%;
+    }
+
+    /* Linhas de Informação */
+    .info-row {
+      display: flex;
+      gap: 15px;
+      text-align: left;
+      margin-bottom: 22px;
+      padding-bottom: 12px;
+      border-bottom: 1px dotted #e2e8f0;
+    }
+    .info-row:last-of-type { border-bottom: none; }
+
+    .info-row ion-icon {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-top: 2px;
+    }
+
+    .info-text {
+      flex: 1;
+    }
+
+    .info-label {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding-top: 20px;
-      border-top: 1px solid #f1f5f9;
-    }
-
-    .footer-inst {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      font-size: 0.95rem;
       font-weight: 700;
-      font-size: 0.9rem;
+      color: var(--primary);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .info-label strong {
       color: #1e293b;
     }
 
-    .tech-tag {
-      background: #f1f9f5;
-      color: #1a8e4c;
-      padding: 8px 18px;
-      border-radius: 100px;
-      font-size: 0.75rem;
-      font-weight: 700;
+    .info-sub {
+      font-size: 0.78rem;
+      color: #71717a;
+      line-height: 1.4;
     }
 
-    .action-circle {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: #f1f9f5;
-      color: #1a8e4c;
+    /* Botão Saiba Mais */
+    .saiba-mais-btn {
+      margin-top: auto;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 16px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
+      gap: 12px;
       cursor: pointer;
       transition: 0.3s;
+      width: 100%;
+      text-decoration: none;
     }
 
-    .action-circle:hover {
-      background: var(--primary);
-      color: white;
-      transform: rotate(-15deg);
+    .saiba-mais-btn:hover {
+      background: #15733d;
+      box-shadow: 0 8px 20px rgba(26, 142, 76, 0.3);
     }
 
-    /* NAVEGAÇÃO LADO A LADO DO SLIDER (ESTILO IMAGEM) */
-    .slider-arrows {
-      position: absolute;
-      right: -70px;
-      top: 50%;
-      transform: translateY(-50%);
+    .section-header {
+      position: relative;
+      margin-bottom: 60px;
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      z-index: 10;
-    }
-
-    .project-arrow {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 1px solid #f1f5f9;
-      background: white;
-      color: #1a8e4c;
-      display: flex;
       align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: 0.3s;
-      font-size: 1.2rem;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      text-align: center;
     }
 
-    .project-arrow:hover {
-      background: var(--primary);
-      color: white;
-      transform: scale(1.1);
+    .section-header-titles {
+       width: 100%;
+    }
+
+    .slider-container-box {
+      position: relative;
+      margin-top: 30px;
     }
 
     /* SEÇÃO CIENTISTAS (TEAM) */
@@ -930,58 +933,103 @@ try {
       transition: 0.3s;
     }
 
+    /* SEÇÃO CIENTISTAS (ESTILO ACADÊMICO REFINADO) */
+    .team-section {
+      padding: 100px 0;
+      background: transparent;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 40px;
+      margin-top: 50px;
+    }
+
+    .team-card {
+      display: flex; /* Horizontal */
+      background: #ffffff;
+      border: 1.5px solid var(--primary);
+      border-radius: 4px;
+      overflow: hidden;
+      height: 180px; /* Altura fixa para manter proporção da imagem */
+      position: relative;
+      box-shadow: 10px 10px 0px var(--primary);
+      transition: all 0.3s ease;
+    }
+
     .team-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+      transform: translate(-4px, -4px);
+      box-shadow: 14px 14px 0px #15733d;
     }
 
     .team-img {
-      width: 130px;
-      height: 130px;
-      border-radius: 15px;
+      width: 180px;
+      height: 100%;
       object-fit: cover;
-      border: 3px solid white;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      border-right: 1.5px solid var(--primary);
+    }
+
+    .team-info {
+      flex: 1;
+      background: #f1f9f5; /* Verde claro como na imagem */
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: left;
+      position: relative;
     }
 
     .team-info h3 {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: #1e293b;
+      font-family: 'Philosopher', serif;
+      font-size: 1.6rem;
+      color: #0f172a;
       margin-bottom: 5px;
     }
 
     .team-info p {
+      color: #64748b;
       font-size: 0.85rem;
-      color: var(--primary);
-      font-weight: 600;
-      margin-bottom: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 18px;
     }
 
-    .team-social {
+    .social-links {
       display: flex;
-      gap: 12px;
+      gap: 15px;
     }
 
-    .social-circ {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      background: white;
-      border: 1px solid #e2e8f0;
+    .social-links a {
       color: var(--primary);
+      font-size: 1.4rem;
+      transition: 0.3s;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      transition: 0.3s;
-      cursor: pointer;
+      text-decoration: none;
     }
 
-    .social-circ:hover {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
+    .social-links a:hover {
+      transform: translateY(-3px) scale(1.15);
+      color: #0f172a;
+    }
+
+
+
+    @media (max-width: 550px) {
+      .team-grid { grid-template-columns: 1fr; }
+      .team-card {
+        flex-direction: column;
+        height: auto;
+      }
+      .team-img {
+        width: 100%;
+        height: 250px;
+        border-right: none;
+        border-bottom: 1.5px solid var(--primary);
+      }
     }
 
     /* AJUSTE FINO NAS TAGS DE PROJETO */
@@ -1282,9 +1330,11 @@ try {
       <section class="section-padding" id="projetos" style="background: transparent;">
         <div class="container">
           <div class="section-header">
-            <span class="section-tag">VITRINE ACADÊMICA</span>
-            <h2 class="section-title">Projetos de Extensão</h2>
-            <div class="u-diamond" style="margin: 0 auto 30px;"><span></span></div>
+            <div class="section-header-titles">
+              <span class="section-tag">VITRINE ACADÊMICA</span>
+              <h2 class="section-title">Projetos de Extensão</h2>
+              <div class="u-diamond" style="margin: 0 auto 30px;"><span></span></div>
+            </div>
           </div>
 
           <!-- BARRA DE FILTROS -->
@@ -1333,43 +1383,52 @@ try {
                          data-status="<?php echo htmlspecialchars($p['situacao_projeto'] ?? ''); ?>"
                          data-title="<?php echo htmlspecialchars($p['nome_projeto']); ?>"
                          data-id="<?php echo $p['codigo_projeto']; ?>">
-                      <div class="project-card">
-                        <div class="admin-controls">
-                          <?php if ($logado && ($_SESSION['nivel_acesso'] == 1 || $p['siape_professor'] == $_SESSION['siape'])): ?>
-                            <button class="admin-btn"
-                              onclick="location.href='painel.html?edit=<?php echo $p['codigo_projeto']; ?>'"><ion-icon
-                                name="pencil-outline"></ion-icon></button>
-                            <button class="admin-btn" onclick="excluirProjeto('<?php echo $p['codigo_projeto']; ?>')"><ion-icon
-                                name="trash-outline"></ion-icon></button>
-                          <?php endif; ?>
-                        </div>
-                        <span class="project-tag"><?php echo strtoupper($p['categoria_projeto']); ?></span>
+                                            <div class="project-card">
+                        
+                        <div class="card-top-tag"><?php echo htmlspecialchars($p['linguagem_projeto'] ?? 'GERAL'); ?></div>
+                        
                         <h3 class="project-title"><?php echo htmlspecialchars($p['nome_projeto']); ?></h3>
-                        <p class="project-desc">
-                          <?php echo mb_strimwidth(htmlspecialchars($p['resumo_projeto']), 0, 110, "..."); ?></p>
-
-                        <div class="project-contributors">
-                          <span><strong>Orientador:</strong>
-                            <?php echo htmlspecialchars($p['orientador_projeto'] ?? 'Docente IFPA'); ?></span>
-                          <?php if (!empty($p['coorientador_projeto'])): ?>
-                            <span><strong>Coorientador:</strong>
-                              <?php echo htmlspecialchars($p['coorientador_projeto']); ?></span>
-                          <?php endif; ?>
+                        
+                        <div class="card-divider">
+                          <span></span>
+                          <div class="dot"></div>
+                          <span></span>
                         </div>
 
-                        <div class="project-footer">
-                          <div class="footer-inst">
-                            <ion-icon name="person-outline"></ion-icon> IFPA
+                        <div class="info-row">
+                          <ion-icon name="person-outline"></ion-icon>
+                          <div class="info-text">
+                            <div class="info-label">ORIENTADOR <strong>: <?php echo htmlspecialchars($p['orientador_projeto'] ?? 'ALEX'); ?></strong></div>
+                            <p class="info-sub">Docente responsável pela supervisão e orientação técnica do projeto acadêmico.</p>
                           </div>
-                          <div class="footer-right">
-                            <div class="tech-tag">
-                              <?php echo htmlspecialchars($p['linguagem_projeto'] ?? 'Geral'); ?>
-                            </div>
-                            <div class="action-circle"
-                              onclick="window.location.href='projeto_detalhe.php?id=<?php echo $p['codigo_projeto']; ?>'">
-                              <ion-icon name="chevron-forward-outline"></ion-icon>
-                            </div>
+                        </div>
+
+                        <div class="info-row">
+                          <ion-icon name="people-outline"></ion-icon>
+                          <div class="info-text">
+                            <div class="info-label">COORIENTADOR <strong>: <?php echo htmlspecialchars($p['coorientador_projeto'] ?? 'NÃO INFORMADO'); ?></strong></div>
+                            <p class="info-sub">Auxiliar na supervisão técnica e suporte ao desenvolvimento das atividades.</p>
                           </div>
+                        </div>
+
+                        <div class="info-row">
+                          <ion-icon name="school-outline"></ion-icon>
+                          <div class="info-text">
+                            <div class="info-label">CAMPUS <strong>: <?php echo htmlspecialchars($p['campus_projeto'] ?? 'IFPA'); ?></strong></div>
+                            <p class="info-sub">Unidade institucional onde o projeto foi planejado e executado.</p>
+                          </div>
+                        </div>
+
+                        <a href="projeto_detalhe.php?id=<?php echo $p['codigo_projeto']; ?>" class="saiba-mais-btn">
+                          <ion-icon name="eye-outline"></ion-icon> SAIBA MAIS
+                        </a>
+
+                        <!-- Controles de Admin (Sobrepostos) -->
+                        <div class="admin-controls" style="top: 10px; right: 10px;">
+                          <?php if ($logado && ($_SESSION['nivel_acesso'] == 1 || $p['siape_professor'] == $_SESSION['siape'])): ?>
+                            <button class="admin-btn" onclick="location.href='painel.html?edit=<?php echo $p['codigo_projeto']; ?>'"><ion-icon name="pencil-outline"></ion-icon></button>
+                            <button class="admin-btn" onclick="excluirProjeto('<?php echo $p['codigo_projeto']; ?>')"><ion-icon name="trash-outline"></ion-icon></button>
+                          <?php endif; ?>
                         </div>
                       </div>
                     </div>
@@ -1379,11 +1438,6 @@ try {
               <div class="swiper-pagination swiper-pagination-projects"></div>
             </div>
 
-            <!-- SETAS LATERAIS -->
-            <div class="slider-arrows">
-              <div class="project-arrow swiper-button-prev-ext"><ion-icon name="arrow-back-outline"></ion-icon></div>
-              <div class="project-arrow swiper-button-next-ext"><ion-icon name="arrow-forward-outline"></ion-icon></div>
-            </div>
           </div>
         </div>
       </section>
@@ -1395,9 +1449,11 @@ try {
       <section class="section-padding" style="background: transparent;">
         <div class="container">
           <div class="section-header">
-            <span class="section-tag">VITRINE ACADÊMICA</span>
-            <h2 class="section-title">Projetos de Pesquisa</h2>
-            <div class="u-diamond" style="margin: 0 auto 30px;"><span></span></div>
+            <div class="section-header-titles">
+              <span class="section-tag">VITRINE ACADÊMICA</span>
+              <h2 class="section-title">Projetos de Pesquisa</h2>
+              <div class="u-diamond" style="margin: 0 auto 30px;"><span></span></div>
+            </div>
           </div>
 
           <!-- BARRA DE FILTROS -->
@@ -1445,43 +1501,52 @@ try {
                          data-status="<?php echo htmlspecialchars($p['situacao_projeto'] ?? ''); ?>"
                          data-title="<?php echo htmlspecialchars($p['nome_projeto']); ?>"
                          data-id="<?php echo $p['codigo_projeto']; ?>">
-                      <div class="project-card">
-                        <div class="admin-controls">
-                          <?php if ($logado && ($_SESSION['nivel_acesso'] == 1 || $p['siape_professor'] == $_SESSION['siape'])): ?>
-                            <button class="admin-btn"
-                              onclick="location.href='painel.html?edit=<?php echo $p['codigo_projeto']; ?>'"><ion-icon
-                                name="pencil-outline"></ion-icon></button>
-                            <button class="admin-btn" onclick="excluirProjeto('<?php echo $p['codigo_projeto']; ?>')"><ion-icon
-                                name="trash-outline"></ion-icon></button>
-                          <?php endif; ?>
-                        </div>
-                        <span class="project-tag"><?php echo strtoupper($p['categoria_projeto']); ?></span>
+                                            <div class="project-card">
+                        
+                        <div class="card-top-tag"><?php echo htmlspecialchars($p['linguagem_projeto'] ?? 'GERAL'); ?></div>
+                        
                         <h3 class="project-title"><?php echo htmlspecialchars($p['nome_projeto']); ?></h3>
-                        <p class="project-desc">
-                          <?php echo mb_strimwidth(htmlspecialchars($p['resumo_projeto']), 0, 110, "..."); ?></p>
-
-                        <div class="project-contributors">
-                          <span><strong>Orientador:</strong>
-                            <?php echo htmlspecialchars($p['orientador_projeto'] ?? 'Docente IFPA'); ?></span>
-                          <?php if (!empty($p['coorientador_projeto'])): ?>
-                            <span><strong>Coorientador:</strong>
-                              <?php echo htmlspecialchars($p['coorientador_projeto']); ?></span>
-                          <?php endif; ?>
+                        
+                        <div class="card-divider">
+                          <span></span>
+                          <div class="dot"></div>
+                          <span></span>
                         </div>
 
-                        <div class="project-footer">
-                          <div class="footer-inst">
-                            <ion-icon name="person-outline"></ion-icon> IFPA
+                        <div class="info-row">
+                          <ion-icon name="person-outline"></ion-icon>
+                          <div class="info-text">
+                            <div class="info-label">ORIENTADOR <strong>: <?php echo htmlspecialchars($p['orientador_projeto'] ?? 'ALEX'); ?></strong></div>
+                            <p class="info-sub">Docente responsável pela supervisão e orientação técnica do projeto acadêmico.</p>
                           </div>
-                          <div class="footer-right">
-                            <div class="tech-tag">
-                              <?php echo htmlspecialchars($p['linguagem_projeto'] ?? 'Geral'); ?>
-                            </div>
-                            <div class="action-circle"
-                              onclick="window.location.href='projeto_detalhe.php?id=<?php echo $p['codigo_projeto']; ?>'">
-                              <ion-icon name="chevron-forward-outline"></ion-icon>
-                            </div>
+                        </div>
+
+                        <div class="info-row">
+                          <ion-icon name="people-outline"></ion-icon>
+                          <div class="info-text">
+                            <div class="info-label">COORIENTADOR <strong>: <?php echo htmlspecialchars($p['coorientador_projeto'] ?? 'NÃO INFORMADO'); ?></strong></div>
+                            <p class="info-sub">Auxiliar na supervisão técnica e suporte ao desenvolvimento das atividades.</p>
                           </div>
+                        </div>
+
+                        <div class="info-row">
+                          <ion-icon name="school-outline"></ion-icon>
+                          <div class="info-text">
+                            <div class="info-label">CAMPUS <strong>: <?php echo htmlspecialchars($p['campus_projeto'] ?? 'IFPA'); ?></strong></div>
+                            <p class="info-sub">Unidade institucional onde o projeto foi planejado e executado.</p>
+                          </div>
+                        </div>
+
+                        <a href="projeto_detalhe.php?id=<?php echo $p['codigo_projeto']; ?>" class="saiba-mais-btn">
+                          <ion-icon name="eye-outline"></ion-icon> SAIBA MAIS
+                        </a>
+
+                        <!-- Controles de Admin (Sobrepostos) -->
+                        <div class="admin-controls" style="top: 10px; right: 10px;">
+                          <?php if ($logado && ($_SESSION['nivel_acesso'] == 1 || $p['siape_professor'] == $_SESSION['siape'])): ?>
+                            <button class="admin-btn" onclick="location.href='painel.html?edit=<?php echo $p['codigo_projeto']; ?>'"><ion-icon name="pencil-outline"></ion-icon></button>
+                            <button class="admin-btn" onclick="excluirProjeto('<?php echo $p['codigo_projeto']; ?>')"><ion-icon name="trash-outline"></ion-icon></button>
+                          <?php endif; ?>
                         </div>
                       </div>
                     </div>
@@ -1491,11 +1556,6 @@ try {
               <div class="swiper-pagination swiper-pagination-projects"></div>
             </div>
 
-            <!-- SETAS LATERAIS -->
-            <div class="slider-arrows">
-              <div class="project-arrow swiper-button-prev-pes"><ion-icon name="arrow-back-outline"></ion-icon></div>
-              <div class="project-arrow swiper-button-next-pes"><ion-icon name="arrow-forward-outline"></ion-icon></div>
-            </div>
           </div>
         </div>
       </section>
@@ -1517,11 +1577,11 @@ try {
               onerror="this.src='https://ui-avatars.com/api/?name=Stella+Karolina&background=1a8e4c&color=fff'">
             <div class="team-info">
               <h3>Stella Karolina</h3>
-              <p>Desenvolvedora</p>
+              <p>Fundadora & Dev</p>
               <div class="social-links">
-                <ion-icon name="mail-outline"></ion-icon>
-                <ion-icon name="logo-github"></ion-icon>
-                <ion-icon name="logo-linkedin"></ion-icon>
+                <a href="#" title="GitHub"><ion-icon name="logo-github"></ion-icon></a>
+                <a href="#" title="Lattes"><ion-icon name="school-outline"></ion-icon></a>
+                <a href="#" title="LinkedIn"><ion-icon name="logo-linkedin"></ion-icon></a>
               </div>
             </div>
           </div>
@@ -1532,11 +1592,11 @@ try {
               onerror="this.src='https://ui-avatars.com/api/?name=Jhonefer+Vinicius&background=1a8e4c&color=fff'">
             <div class="team-info">
               <h3>Jhonefer Vinicius</h3>
-              <p>Desenvolvedor</p>
+              <p>Co-Fundador & Dev</p>
               <div class="social-links">
-                <ion-icon name="mail-outline"></ion-icon>
-                <ion-icon name="logo-github"></ion-icon>
-                <ion-icon name="logo-linkedin"></ion-icon>
+                <a href="#" title="GitHub"><ion-icon name="logo-github"></ion-icon></a>
+                <a href="#" title="Lattes"><ion-icon name="school-outline"></ion-icon></a>
+                <a href="#" title="LinkedIn"><ion-icon name="logo-linkedin"></ion-icon></a>
               </div>
             </div>
           </div>
@@ -1599,7 +1659,7 @@ try {
       pagination: { el: ".swiper-pagination-projects", clickable: true },
       breakpoints: {
         768: { slidesPerView: 2 },
-        1024: { slidesPerView: 2.5 } /* Mais largo para não esmagar */
+        1200: { slidesPerView: 3 } /* 3 cards lado a lado */
       }
     });
 
@@ -1611,7 +1671,7 @@ try {
       pagination: { el: ".swiper-pagination-projects", clickable: true },
       breakpoints: {
         768: { slidesPerView: 2 },
-        1024: { slidesPerView: 2.5 }
+        1200: { slidesPerView: 3 } /* 3 cards lado a lado */
       }
     });
 
@@ -1702,9 +1762,27 @@ try {
     filterStatusPes?.addEventListener('change', applyFiltersPes);
     sortProjectPes?.addEventListener('change', applyFiltersPes);
 
-    function excluirProjeto(id) {
+    async function excluirProjeto(id) {
       if (confirm('Deseja realmente excluir este projeto?')) {
-        window.location.href = 'excluir_projeto.php?id=' + id;
+        try {
+          const response = await fetch('excluir_projeto.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ codigo_projeto: id })
+          });
+          
+          const result = await response.json();
+          
+          if (result.message) {
+            alert(result.message);
+            location.reload();
+          } else {
+            alert(result.error || 'Erro ao excluir projeto');
+          }
+        } catch (error) {
+          console.error(error);
+          alert('Erro de conexão ao tentar excluir.');
+        }
       }
     }
   </script>
